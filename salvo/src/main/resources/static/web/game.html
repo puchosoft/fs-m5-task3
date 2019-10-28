@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ship Locations!</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/game.css">
+  <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+</head>
+
+<body>
+  <div class="container-fluid bg" id="grids">
+    <div class="row bg-black-50">
+      <div class="col-3 my-auto"></div>
+      <div class="col-6">
+        <h1 class="display-3 font-weight-bold font-italic mx-auto text-warning">Salvo</h1>
+      </div>
+      <div class="col-3 my-auto text-warning">
+        <form method="post" action="">
+          <div class="row">
+            <div class="col-9 px-0"></div>
+            <div class="col-3 px-0"><button type="submit" @click="logout">Logout</button></div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">
+          &nbsp You: &nbsp<span class="text-white font-italic">{{you}}</span>&nbsp
+        </h5>
+        <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">&nbsp Yours ships : &nbsp</h5>
+
+        <table class="mx-auto mt-4 table table-bordered table-sm table-responsive-lg bg-blue-50">
+          <thead>
+            <tr class='bg-dark'>
+              <th class='py-1'></th>
+              <th v-for='c in columns' class='py-1 text-white'>{{c}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in rows">
+              <th class="py-1 text-white bg-dark">{{r}}</th>
+              <td v-for="v in shipVisibility[r.charCodeAt(0)-65]" class="p-0 w-2">
+                <div v-if="v!=null" class="py-2 badge border border-dark d-block" :class="'badge-'+(v>0?'danger':'light')">
+                  &nbsp{{v>0?v:''}}&nbsp
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">
+          &nbsp Enemy: &nbsp<span class="text-white font-italic">{{enemy}}</span>&nbsp
+        </h5>
+        <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">&nbsp Yours salvoes : &nbsp</h5>
+
+        <table class="mx-auto mt-4 table table-bordered table-sm table-responsive-lg bg-blue-50">
+          <thead>
+            <tr class='bg-dark'>
+              <th class='py-1'></th>
+              <th v-for='c in columns' class='py-1 text-white'>{{c}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in rows">
+              <th class="py-1 text-white bg-dark">{{r}}</th>
+              <td v-for="v in salvoVisibility[r.charCodeAt(0)-65]" class="p-0 w-2">
+                <div v-if="v!=null" class="py-2 badge badge-pill badge-warning border border-dark">
+                  &nbsp{{v}}&nbsp
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="scripts/game.js"></script>
+  <script src="scripts/authentication.js"></script>
+</body>
+</html>
