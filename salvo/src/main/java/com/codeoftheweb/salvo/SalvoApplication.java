@@ -1,6 +1,6 @@
 package com.codeoftheweb.salvo;
 
-//import com.codeoftheweb.salvo.Entities.*;
+import com.codeoftheweb.salvo.Entities.*;
 import com.codeoftheweb.salvo.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -45,7 +45,6 @@ public class SalvoApplication {
                                     GamePlayerRepository gamePlayerRepo,
                                     ShipRepository shipRepo,
                                     SalvoRepository salvoRepo,
-                                    Juguete juguete;
                                     ScoreRepository scoreRepo) {
     return (args) -> {
 
