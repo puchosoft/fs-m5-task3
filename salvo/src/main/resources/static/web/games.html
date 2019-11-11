@@ -21,19 +21,19 @@
         <div v-if="player=='guest'">
           <div class="row small my-2">
             <div class="col-9 px-0"><label class="my-auto">Username: <input type="text" v-model="credential.username"/></label></div>
-            <div class="col-3 my-auto"><button type="submit" class="btn-block" @click="login">Login</button></div>
+            <div class="col-3 my-auto"><button class="btn-block" @click="login">Login</button></div>
           </div>
           <div class="row small my-2">
             <div class="col-9 px-0"><label class="my-auto">Password:&nbsp; <input type="password" v-model="credential.password"/> </label></div>
-            <div class="col-3 my-auto"><button type="submit" class="btn-block" @click="signup">SignUp</button></div>
+            <div class="col-3 my-auto"><button class="btn-block" @click="signup">SignUp</button></div>
           </div>
         </div>
-        <form v-else method='post' action=''>
+        <div v-else>
           <div class='row'>
             <div class='col-9 px-0'></div>
-            <div class="col-3 px-0"><button type='submit' @click="logout">Logout</button></div>
+            <div class="col-3 px-0"><button @click="logout">Logout</button></div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
 

@@ -1,33 +1,32 @@
-function loginClick(credential){
-  if(verifiedUserAndPass(credential)){
-    login(credential);
-  }
+function login(credential) {
+  $.post("/api/login", credential)
+  .done(
+    function(){
+      location.reload();
+    }
+  )
+  .fail(
+    function(){
+      alert('Unregistered user or invalid password');
+    }
+  );
 }
 
-function signupClick(evt){
-  evt.preventDefault();
-  credential = {
-    username: evt.target.form["username"].value,
-    password: evt.target.form["password"].value
-  };
-
-  if(verifiedUserAndPass(credential)){
-    $.post("/api/players", credential)
-    .done(
-      function(){
-        login(credential);
-      }
-    )
-    .fail(
-      function(){
-        alert('User already registered');
-      }
-    );
-  }
+function signup(credential){
+  $.post("/api/players", credential)
+  .done(
+    function(){
+      login(credential);
+    }
+  )
+  .fail(
+    function(){
+      alert('User already registered');
+    }
+  );
 }
 
-function logoutClick(evt){
-  evt.preventDefault();
+function logout(){
   $.post('/api/logout')
   .done(
     function(){
@@ -74,14 +73,3 @@ function verifiedUserAndPass(c) {
   return verified;
 }
 
-function login(credential) {
-  $.post("/api/login", credential)
-   .done(function(){
-          location.reload();
-         }
-   )
-   .fail(function(){
-          alert('Unregistered user or invalid password');
-         }
-   );
-}

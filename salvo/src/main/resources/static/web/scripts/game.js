@@ -14,8 +14,8 @@ $(function(){
       salvoVisibility:  Array()
     },
     methods:  {
-      logout: function(evt){
-        logoutClick(evt);
+      logout: function(){
+        logout();
       }
     }
   });

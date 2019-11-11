@@ -6,18 +6,21 @@ $(function(){
       data:
        {
        player: player==null?"guest":player.email,
-       credential:{username:'', password:''}
+       credential:  {username:'', password:''}
        },
       methods: {
         login:  function(){
-          console.log(this.credential);
-          loginClick(this.credential);
+          if(verifiedUserAndPass(this.credential)){
+            login(this.credential);
+          }
         },
-        signup: function(evt){
-          signupClick(evt);
+        signup: function(){
+          if(verifiedUserAndPass(this.credential)){
+            signup(this.credential);
+          }
         },
-        logout: function(evt){
-          logoutClick(evt);
+        logout: function(){
+          logout();
         }
       }
     });
