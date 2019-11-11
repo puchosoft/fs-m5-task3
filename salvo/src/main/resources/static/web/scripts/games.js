@@ -3,10 +3,15 @@ $(function(){
   function showUserLogged(player){
     var userLogged = new Vue({
       el:   '#userInfo',
-      data: { player: player==null?"guest":player.email },
+      data:
+       {
+       player: player==null?"guest":player.email,
+       credential:{username:'', password:''}
+       },
       methods: {
-        login:  function(evt){
-          loginClick(evt);
+        login:  function(){
+          console.log(this.credential);
+          loginClick(this.credential);
         },
         signup: function(evt){
           signupClick(evt);

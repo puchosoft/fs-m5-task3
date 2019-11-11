@@ -1,10 +1,4 @@
-function loginClick(evt){
-  evt.preventDefault();
-  credential = {
-    username: evt.target.form["username"].value,
-    password: evt.target.form["password"].value
-  };
-
+function loginClick(credential){
   if(verifiedUserAndPass(credential)){
     login(credential);
   }

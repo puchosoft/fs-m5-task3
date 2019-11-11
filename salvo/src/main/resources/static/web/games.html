@@ -18,16 +18,16 @@
         <h1 class="display-3 font-weight-bold font-italic mx-auto text-warning">Salvo</h1>
       </div>
       <div class="col-3 my-auto text-warning">
-        <form v-if="player=='guest'" method="post" action="">
+        <div v-if="player=='guest'">
           <div class="row small my-2">
-            <div class="col-9 px-0"><label class="my-auto">Username: <input type="text" name="username"/></label></div>
+            <div class="col-9 px-0"><label class="my-auto">Username: <input type="text" v-model="credential.username"/></label></div>
             <div class="col-3 my-auto"><button type="submit" class="btn-block" @click="login">Login</button></div>
           </div>
           <div class="row small my-2">
-            <div class="col-9 px-0"><label class="my-auto">Password:&nbsp; <input type="password" name="password"/> </label></div>
+            <div class="col-9 px-0"><label class="my-auto">Password:&nbsp; <input type="password" v-model="credential.password"/> </label></div>
             <div class="col-3 my-auto"><button type="submit" class="btn-block" @click="signup">SignUp</button></div>
           </div>
-        </form>
+        </div>
         <form v-else method='post' action=''>
           <div class='row'>
             <div class='col-9 px-0'></div>
