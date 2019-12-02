@@ -63,12 +63,15 @@ public class Game {
 
   public int getStatus(){
     int status = 0; // Inicializa status = OPENED
+
     if(this.getPlayers().size() > 1){
       status = 1; // Si hay 2 players -> status = COMPLETED
-    }
-    int minShips = ShipsValidation.getShipTypes().size();
-    //resolver status=2
 
+      GamePlayer[] gps = this.getGamePlayers().toArray(new GamePlayer[0]);
+      if(gps[0].isFull() && gps[1].isFull()) {
+        status = 2; // Si ambos gamePlayers tienen flota completa -> status = READY
+      }
+    }
 
     if(this.getScores().size() != 0){
       status = 3; // Si hay scores -> status = CLOSED

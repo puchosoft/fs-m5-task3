@@ -29,4 +29,8 @@ public class ShipsValidation {
   public static Set<Map<String, Object>> getShipTypes(){
     return shipTypes;
   }
+
+  public static int getShipQuantity(){
+    return shipTypes.stream().mapToInt(st -> (int)st.get("quantity")).sum();
+  }
 }

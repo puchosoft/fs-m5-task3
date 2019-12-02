@@ -100,4 +100,7 @@ public class GamePlayer {
     return dto;
   }
 
+  public boolean isFull(){
+    return (this.getShips().size() == ShipsValidation.getShipQuantity());
+  }
 }
