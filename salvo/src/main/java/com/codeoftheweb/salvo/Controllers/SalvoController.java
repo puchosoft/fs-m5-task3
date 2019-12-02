@@ -3,6 +3,7 @@ package com.codeoftheweb.salvo.Controllers;
 import com.codeoftheweb.salvo.Entities.Game;
 import com.codeoftheweb.salvo.Entities.GamePlayer;
 import com.codeoftheweb.salvo.Entities.Player;
+import com.codeoftheweb.salvo.Entities.ShipsValidation;
 import com.codeoftheweb.salvo.Repositories.GamePlayerRepository;
 import com.codeoftheweb.salvo.Repositories.GameRepository;
 import com.codeoftheweb.salvo.Repositories.PlayerRepository;
@@ -95,6 +96,7 @@ public class SalvoController {
         .map(game_gamePlayer -> game_gamePlayer.toSalvoDTO())
         .collect(toSet())
     );
+
     return new ResponseEntity<>(gameDTO,HttpStatus.OK);
   }
 

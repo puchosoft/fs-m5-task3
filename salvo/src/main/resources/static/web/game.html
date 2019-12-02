@@ -54,9 +54,9 @@
         <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">
           &nbsp Enemy: &nbsp<span class="text-white font-italic">{{enemy}}</span>&nbsp
         </h5>
-        <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">&nbsp Yours salvoes : &nbsp</h5>
+        <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">&nbsp {{(gameStatus > 1)?"Yours salvoes":"Remaining ships"}} : &nbsp</h5>
 
-        <table class="mx-auto mt-4 table table-bordered table-sm table-responsive-lg bg-blue-50">
+        <table v-if='gameStatus > 1' class="mx-auto mt-4 table table-bordered table-sm table-responsive-lg bg-blue-50">
           <thead>
             <tr class='bg-dark'>
               <th class='py-1'></th>

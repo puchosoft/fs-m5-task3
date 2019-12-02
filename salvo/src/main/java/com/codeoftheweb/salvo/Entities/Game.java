@@ -61,11 +61,28 @@ public class Game {
         .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
+  public int getStatus(){
+    int status = 0; // Inicializa status = OPENED
+    if(this.getPlayers().size() > 1){
+      status = 1; // Si hay 2 players -> status = COMPLETED
+    }
+    int minShips = ShipsValidation.getShipTypes().size();
+    //resolver status=2
+
+
+    if(this.getScores().size() != 0){
+      status = 3; // Si hay scores -> status = CLOSED
+    }
+    return status;
+  }
+
   // Salida DTO para los objetos Game
   public Map<String, Object> toDTO() {
     Map<String, Object> dto = new LinkedHashMap<>();
+
     dto.put("id", this.id);
     dto.put("created", this.creationDate);
+    dto.put("status", this.getStatus());
     dto.put("gamePlayers", this.getGamePlayers()
         .stream()
         .map(gp -> gp.toDTO()));

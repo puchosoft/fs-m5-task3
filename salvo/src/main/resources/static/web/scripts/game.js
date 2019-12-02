@@ -8,6 +8,7 @@ $(function(){
     data: {
       you:              '',
       enemy:            '',
+      gameStatus:       0, // OPEN
       columns:          columns,
       rows:             rows,
       shipVisibility:   Array(),
@@ -40,6 +41,7 @@ function loadData(){
     $.getJSON("/api/game_view/"+id)
     .done(
       function(gameViewData){
+        gameInfo.gameStatus = gameViewData.status;
         showPlayersInfo(id,gameViewData.gamePlayers);
         showGrids(gameViewData.ships, gameViewData.salvoes);
       }
@@ -104,6 +106,8 @@ function showGrids(ships, salvoes){
   if(enemyID > 0){
     setShipsDamage(salvoes.filter( p => p.playerID == enemyID)[0].turns);
   }
-  setSalvoesVisibility(salvoes.filter( s => s.playerID == youID)[0].turns);
+  if (gameInfo.gameStatus > 1){
+    setSalvoesVisibility(salvoes.filter( s => s.playerID == youID)[0].turns);
+  }
 }
 
