@@ -68,8 +68,8 @@ public class Game {
       status = 1; // Si hay 2 players -> status = COMPLETED
 
       GamePlayer[] gps = this.getGamePlayers().toArray(new GamePlayer[0]);
-      if(gps[0].isFull() && gps[1].isFull()) {
-        status = 2; // Si ambos gamePlayers tienen flota completa -> status = READY
+      if(gps[0].isFull() && gps[1].isFull() || gps[0].getSalvoes().size() !=0 || gps[1].getSalvoes().size() !=0) {
+        status = 2; // Si ambos gamePlayers tienen flota completa o si existen salvos -> status = READY
       }
     }
 

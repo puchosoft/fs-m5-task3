@@ -2,14 +2,12 @@ package com.codeoftheweb.salvo.Entities;
 
 import java.util.*;
 
-
-
 public class ShipsValidation {
 
-  private static Set<Map<String, Object>> shipTypes = init();
+  private static ArrayList<Map<String, Object>> shipTypes = init();
 
-  private static Set<Map<String, Object>> init(){
-    Set<Map<String, Object>> sT = new HashSet();
+  private static ArrayList<Map<String, Object>> init(){
+    ArrayList<Map<String, Object>> sT = new ArrayList();
     sT.add(getMap("Aircraft Carrier", 5, 1));
     sT.add(getMap("Battleship", 4, 1));
     sT.add(getMap("Submarine", 3, 1));
@@ -26,7 +24,7 @@ public class ShipsValidation {
     return map;
   }
 
-  public static Set<Map<String, Object>> getShipTypes(){
+  public static ArrayList<Map<String, Object>> getShipTypes(){
     return shipTypes;
   }
 

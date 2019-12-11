@@ -30,7 +30,7 @@ h5,h4,h3,h1{
 }
 
 tr{
-  height: 2em;
+  height: 5vh;
 }
 
 td, th {
@@ -38,4 +38,18 @@ td, th {
   text-align: center;
   vertical-align: middle;
   border:inherit;
+}
+
+.img-ship {
+
+}
+
+.div-ship {
+  height: 100%;
+  width:100%
+}
+
+.div-parking {
+  height: 10vh;
+  width: 15vw;
 }

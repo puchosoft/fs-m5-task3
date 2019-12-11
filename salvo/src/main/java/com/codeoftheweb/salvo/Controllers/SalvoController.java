@@ -15,12 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.*;
 
 @RestController
 @RequestMapping("/api") // Todos los controladores cuelgan de /api
@@ -89,6 +88,26 @@ public class SalvoController {
     gameDTO.put("ships", gamePlayer.getShips()
         .stream()
         .map(ship -> ship.toDTO())
+    );
+
+    ArrayList<Map<String, Object>> remainingShips = ShipsValidation.getShipTypes()
+        .stream()
+        .map(HashMap<String, Object>::new)
+        .collect(toCollection(ArrayList::new));
+
+    gameDTO.put("remainingShips", remainingShips
+        .stream()
+        .map(shipT -> {
+          int q = (int)shipT.get("quantity");
+          String t = shipT.get("type").toString();
+          q = q - (int)gamePlayer.getShips()
+            .stream()
+            .filter(ship -> ship.getShipType()==t)
+            .count();
+          shipT.replace("quantity", q);
+          return shipT;
+        })
+        .filter(shipT -> (int)shipT.get("quantity") > 0)
     );
 
     gameDTO.put("salvoes", gamePlayer.getGame().getGamePlayers()
