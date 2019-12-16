@@ -6,6 +6,7 @@ $(function(){
   gameInfo = new Vue({
     el:   '#grids',
     data: {
+      gamePlayerId:     null,
       you:              '',
       enemy:            '',
       gameStatus:       0, // OPEN
@@ -38,7 +39,7 @@ $(function(){
       drop:function(x, y){
         putShip(x,y);
       },
-      rotate:function(v,event){
+      rotate:function(v, event){
         var ship = Number(event.target.dataset.ship);
         this.dragHorizontal = (event.target.dataset.horizontal == 'false');
         this.dragLength = this.new_ships[ship].locations.length;
@@ -47,19 +48,19 @@ $(function(){
         var x = loc2X(loc);
         // Si hay lugar para rotar la nave
         if (verifyPlace(x,y)){
-          //Borra la visibilidad de la nave antes de rotar
-          //this.new_ships[ship].locations.forEach((loc) => this.shipVisibility[loc2Y(loc)][loc2X(loc)]=null);
-
           this.dragRemaining = false;
-          this.dragType = this.new_ships[ship].type;
+          this.dragType = event.target.dataset.type;
           this.dragShip = ship;
           putShip(x,y);
         }
+      },
+      addShips:function(){
+        sendShips(this.gamePlayerId);
       }
     }
   });
 
-  // Inicializa la visibilidad de ships y salvoes en null
+  // Inicializa la visibilidad de naves y disparos en null
   rows.forEach(r => {
     var a = Array();
     columns.forEach(c => {
@@ -69,22 +70,66 @@ $(function(){
     gameInfo.salvoVisibility.push(a.slice());
   });
 
-  loadData();
+  if(location.search.startsWith("?gp=")){
+    gameInfo.gamePlayerId = location.search.slice(4);
+    loadData(gameInfo.gamePlayerId);
+  }
 
 });
 
+// Lee los datos de la API /api/game_view/{nn}
+function loadData(gpId){
+  $.getJSON("/api/game_view/" + gpId)
+  .done(
+    function(gameViewData){
+      gameInfo.gameStatus = gameViewData.status;
+      showPlayersInfo(gpId,gameViewData.gamePlayers);
+      showGrids(gameViewData.ships, gameViewData.salvoes, gameViewData.remainingShips);
+    }
+  )
+  .fail(
+    function(data){
+      alert('Unauthorized user');
+    }
+  );
+}
+
+// Envia las naves editadas al backend para ser grabadas
+function sendShips(gpId){
+  $.post({
+    url:          "/api/games/players/"+ gpId + "/ships",
+    data:         JSON.stringify(gameInfo.new_ships),
+    dataType:     "text",
+    contentType:  "application/json"
+  })
+  .done(
+    function(){
+      location.reload();
+    }
+  )
+  .fail(
+    function(data){
+      alert('Unauthorized user',data);
+    }
+  );
+}
+
+// Devuelve la coordenada X de una ubicacion de la grilla
 function loc2X(loc){
   return Number(loc.slice(1))-1;
 }
 
+// Devuelve la coordenada Y de una ubicacion de la grilla
 function loc2Y(loc){
   return loc.slice(0,1).charCodeAt(0) - 'A'.charCodeAt(0);
 }
 
+// Devuelve la ubicacion de la grilla en funcion de las coordenadas (X,Y)
 function xy2Loc(x,y){
   return rows[y] + (x+1).toString();
 }
 
+// Dibuja una nave que se arrastró o se rotó
 function putShip(x, y){
   if (verifyPlace(x,y)){
     var incX = gameInfo.dragHorizontal?1:0;
@@ -109,7 +154,7 @@ function putShip(x, y){
       var oldIncY = 1 - oldIncX;
     }
 
-    // Crea un objeto nave para enviar al backed
+    // Crea un objeto nave para enviar al backend
     var locations = Array();
     // Setea los data-x de los elementos DIV que componen la nave
     for(i = 0; i < length; i++){
@@ -123,7 +168,7 @@ function putShip(x, y){
       div_ship.dataset.remaining = false;
       div_ship.draggable=true;
     }
-    var obj={type: gameInfo.dragType, locations: locations};
+    var obj = {shipType: gameInfo.dragType, locations: locations};
     if (gameInfo.dragRemaining){
       gameInfo.new_ships.push(obj);
     }
@@ -141,8 +186,8 @@ function putShip(x, y){
   }
 }
 
+// Verifica si una cordenana (X,Y) está dentro de la grilla
 function verifyPlace(x, y){
-
   // Verifica si el origen esta fuera de la grilla
   if (x<0 || x>9 || y<0 || y>9){
     return false;
@@ -167,26 +212,7 @@ function verifyPlace(x, y){
   return true;
 }
 
-function loadData(){
-  if(location.search.startsWith("?gp=")){
-    id = location.search.slice(4);
-    $.getJSON("/api/game_view/"+id)
-    .done(
-      function(gameViewData){
-        gameInfo.gameStatus = gameViewData.status;
-        showPlayersInfo(id,gameViewData.gamePlayers);
-        showGrids(gameViewData.ships, gameViewData.salvoes, gameViewData.remainingShips);
-      }
-    )
-    .fail(
-      function(data){
-        alert('Unauthorized user');
-      }
-    );
-  }
-}
-
-//Muestra la informacion de los Players
+//Muestra la informacion de los Players en el encabezado
 function showPlayersInfo(id, gamePlayers){
   index=(gamePlayers[0].id != id);
   youID = gamePlayers[Number(index)].player.id;
@@ -208,6 +234,7 @@ function setShipsVisibility(ships){
   });
 }
 
+// Marca el daño en las naves propias
 function setShipsDamage(enemySalvoes){
   enemySalvoes.forEach(t => {
     t.shots.forEach(shot => {
@@ -229,10 +256,12 @@ function setSalvoesVisibility(salvoes){
   });
 }
 
+// Carga las naves remanentes en el objeto Vue
 function setRemainingShips(ships){
   gameInfo.remainingShips = ships.slice();
 }
 
+// Modifica la visivilidad de naves y disparos
 function showGrids(ships, salvoes, remainingShips){
   setShipsVisibility(ships);
   if(enemyID > 0){
@@ -245,4 +274,3 @@ function showGrids(ships, salvoes, remainingShips){
     setRemainingShips(remainingShips);
   }
 }
-

@@ -28,7 +28,16 @@ public class ShipsValidation {
     return shipTypes;
   }
 
-  public static int getShipQuantity(){
+  public static int getTotalShipsQuantity(){
     return shipTypes.stream().mapToInt(st -> (int)st.get("quantity")).sum();
   }
+
+  public static int getShipLength(String type){
+    return (int) shipTypes.stream().filter(st -> type.equals(st.get("type"))).findAny().get().get("length");
+  }
+
+  public static int getShipQuantity(String type){
+    return (int) shipTypes.stream().filter(st -> type.equals(st.get("type"))).findAny().get().get("quantity");
+  }
+
 }

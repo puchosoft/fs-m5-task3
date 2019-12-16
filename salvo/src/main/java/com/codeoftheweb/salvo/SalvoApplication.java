@@ -2,6 +2,7 @@ package com.codeoftheweb.salvo;
 
 import com.codeoftheweb.salvo.Entities.*;
 import com.codeoftheweb.salvo.Repositories.*;
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @SpringBootApplication
 public class SalvoApplication {
@@ -93,33 +95,33 @@ public class SalvoApplication {
       gamePlayerRepo.save(new GamePlayer(game8, tony));
 
       // guardamos algunas ships
-      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game1, jack), new String[]{"H2", "H3", "H4"}));
-      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game1, jack), new String[]{"E1", "F1", "G1"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game1, jack), new String[]{"B4", "B5"}));
-      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game1, chloe), new String[]{"B5", "C5", "D5"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game1, chloe), new String[]{"F1", "F2"}));
-      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game2, jack), new String[]{"B5", "C5", "D5"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game2, jack), new String[]{"C6", "C7"}));
-      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game2, chloe), new String[]{"A2", "A3", "A4"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game2, chloe), new String[]{"G6", "H6"}));
-      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game3, chloe), new String[]{"B5", "C5", "D5"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game3, chloe), new String[]{"C6", "C7"}));
-      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game3, tony), new String[]{"A2", "A3", "A4"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game3, tony), new String[]{"G6", "H6"}));
-      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game4, chloe), new String[]{"B5", "C5", "D5"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game4, chloe), new String[]{"C6", "C7"}));
-      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game4, jack), new String[]{"A2", "A3", "A4"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game4, jack), new String[]{"G6", "H6"}));
-      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game5, tony), new String[]{"B5", "C5", "D5"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game5, tony), new String[]{"C6", "C7"}));
-      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game5, jack), new String[]{"A2", "A3", "A4"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game5, jack), new String[]{"G6", "H6"}));
-      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game6, kim), new String[]{"B5", "C5", "D5"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game6, kim), new String[]{"C6", "C7"}));
-      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game8, kim), new String[]{"B5", "C5", "D5"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game8, kim), new String[]{"C6", "C7"}));
-      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game8, tony), new String[]{"A2", "A3", "A4"}));
-      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game8, tony), new String[]{"G6", "H6"}));
+      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game1, jack), new TreeSet<>(Arrays.asList("H2", "H3", "H4"))));
+      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game1, jack), new TreeSet<>(Arrays.asList("E1", "F1", "G1"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game1, jack), new TreeSet<>(Arrays.asList("B4", "B5"))));
+      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game1, chloe), new TreeSet<>(Arrays.asList("B5", "C5", "D5"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game1, chloe), new TreeSet<>(Arrays.asList("F1", "F2"))));
+      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game2, jack), new TreeSet<>(Arrays.asList("B5", "C5", "D5"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game2, jack), new TreeSet<>(Arrays.asList("C6", "C7"))));
+      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game2, chloe), new TreeSet<>(Arrays.asList("A2", "A3", "A4"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game2, chloe), new TreeSet<>(Arrays.asList("G6", "H6"))));
+      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game3, chloe), new TreeSet<>(Arrays.asList("B5", "C5", "D5"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game3, chloe), new TreeSet<>(Arrays.asList("C6", "C7"))));
+      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game3, tony), new TreeSet<>(Arrays.asList("A2", "A3", "A4"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game3, tony), new TreeSet<>(Arrays.asList("G6", "H6"))));
+      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game4, chloe), new TreeSet<>(Arrays.asList("B5", "C5", "D5"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game4, chloe), new TreeSet<>(Arrays.asList("C6", "C7"))));
+      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game4, jack), new TreeSet<>(Arrays.asList("A2", "A3", "A4"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game4, jack), new TreeSet<>(Arrays.asList("G6", "H6"))));
+      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game5, tony), new TreeSet<>(Arrays.asList("B5", "C5", "D5"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game5, tony), new TreeSet<>(Arrays.asList("C6", "C7"))));
+      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game5, jack), new TreeSet<>(Arrays.asList("A2", "A3", "A4"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game5, jack), new TreeSet<>(Arrays.asList("G6", "H6"))));
+      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game6, kim), new TreeSet<>(Arrays.asList("B5", "C5", "D5"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game6, kim), new TreeSet<>(Arrays.asList("C6", "C7"))));
+      shipRepo.save(new Ship("Destroyer", gamePlayerRepo.findByGameAndPlayer(game8, kim), new TreeSet<>(Arrays.asList("B5", "C5", "D5"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game8, kim), new TreeSet<>(Arrays.asList("C6", "C7"))));
+      shipRepo.save(new Ship("Submarine", gamePlayerRepo.findByGameAndPlayer(game8, tony), new TreeSet<>(Arrays.asList("A2", "A3", "A4"))));
+      shipRepo.save(new Ship("Patrol Boat", gamePlayerRepo.findByGameAndPlayer(game8, tony), new TreeSet<>(Arrays.asList("G6", "H6"))));
 
       // guardamos algunos salvoes
       salvoRepo.save(new Salvo(gamePlayerRepo.findByGameAndPlayer(game1, jack), 1, new String[]{"B5", "C5", "F1"}));

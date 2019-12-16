@@ -62,21 +62,27 @@ public class Game {
   }
 
   public int getStatus(){
-    int status = 0; // Inicializa status = OPENED
+    // ¿Tiene 2 jugadores?
+    boolean hasTwoPlayers = this.getPlayers().size() > 1;
 
-    if(this.getPlayers().size() > 1){
-      status = 1; // Si hay 2 players -> status = COMPLETED
+    // ¿Tiene todas la naves completas?
+    boolean hasAllTheShips = this.getGamePlayers().stream()
+      .filter(gp -> !gp.isFullOfShips())
+      .count() == 0;
 
-      GamePlayer[] gps = this.getGamePlayers().toArray(new GamePlayer[0]);
-      if(gps[0].isFull() && gps[1].isFull() || gps[0].getSalvoes().size() !=0 || gps[1].getSalvoes().size() !=0) {
-        status = 2; // Si ambos gamePlayers tienen flota completa o si existen salvos -> status = READY
-      }
-    }
+    // ¿Tiene disparos?
+    boolean hasSalvoes = this.getGamePlayers().stream()
+        .filter(gp -> gp.getSalvoes().size() > 0)
+        .count() > 0;
 
-    if(this.getScores().size() != 0){
-      status = 3; // Si hay scores -> status = CLOSED
-    }
-    return status;
+    // ¿Tiene puntajes?
+    boolean hasScores = this.getScores().size() > 0;
+
+    if (hasScores) return 3; // Si tiene puntajes -> status = CLOSED
+    if (hasSalvoes || hasTwoPlayers && hasAllTheShips) return 2; // Si tiene disparos o tiene todas las naves -> status = READY
+    if (hasAllTheShips) return 1; // Si tiene todas las naves pero 1 jugador -> status = WAITING
+
+    return 0; // status = OPENED
   }
 
   // Salida DTO para los objetos Game
@@ -85,7 +91,6 @@ public class Game {
 
     dto.put("id", this.id);
     dto.put("created", this.creationDate);
-    dto.put("status", this.getStatus());
     dto.put("gamePlayers", this.getGamePlayers()
         .stream()
         .map(gp -> gp.toDTO()));

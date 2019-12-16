@@ -100,7 +100,24 @@ public class GamePlayer {
     return dto;
   }
 
-  public boolean isFull(){
-    return (this.getShips().size() == ShipsValidation.getShipQuantity());
+  public boolean isFullOfShips(){
+    return (this.getShips().size() == ShipsValidation.getTotalShipsQuantity());
   }
+
+  public boolean isLocationsFree(Ship ship){
+    return (ship.getLocations()
+      .stream()
+      .filter(loc -> !isFree(loc)).count()) == 0;
+  }
+
+  private boolean isFree(String loc){
+    return this.getShips().stream()
+      .map(ship -> ship.getLocations())
+      .map(locs -> locs.stream()
+          .filter(pos -> pos.equals(loc))
+          .count()
+      )
+      .reduce((sum,n) -> sum+n).orElse(0l)==0;
+  }
+
 }

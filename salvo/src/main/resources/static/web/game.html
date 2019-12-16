@@ -49,7 +49,7 @@
                      @dragstart='(v < 0) ? dragStart(v,$event) : "" '>
                     &nbsp{{v > 0?v:''}}&nbsp
                 </div>
-                <div v-if="v == null && gameStatus < 2" @dragover="allowDrop" @drop="drop(index_X, index_Y, $event)"
+                <div v-if="v == null && gameStatus < 1" @dragover="allowDrop" @drop="drop(index_X, index_Y, $event)"
                      class="div-ship" :id="r+ (index_X+1)">
                   &nbsp;
                 </div>
@@ -62,9 +62,9 @@
           <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">
             &nbsp Enemy: &nbsp<span class="text-white font-italic">{{enemy}}</span>&nbsp
           </h5>
-          <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">&nbsp {{(gameStatus > 1)?"Yours salvoes":"Remaining ships"}} : &nbsp</h5>
+          <h5 class="mx-auto my-3 text-warning bg-black-50 rounded">&nbsp {{(gameStatus > 0)?"Yours salvoes":"Remaining ships"}} : &nbsp</h5>
 
-          <table v-if='gameStatus > 1' class="mx-auto mt-4 table table-bordered table-sm table-responsive-lg bg-blue-50">
+          <table v-if='gameStatus > 0' class="mx-auto mt-4 table table-bordered table-sm table-responsive-lg bg-blue-50">
             <thead>
               <tr class='bg-dark'>
                 <th class='py-1'></th>
@@ -82,7 +82,10 @@
               </tr>
             </tbody>
           </table>
-          <table v-else class="mx-auto mt-4 table table-bordered table-sm table-responsive-lg bg-blue-50">
+          <table v-else class="mx-auto mt-4 table table-bordered table-sm table-responsive-lg bg-blue-50 w-75">
+            <tr v-if="new_ships.length > 0">
+              <td colspan="2"><div ><button class="btn btn-warning border-dark" @click="addShips">Done</button></div></td>
+            </tr>
             <tr v-for='rs in remainingShips' class="">
               <th class='py-1 text-white w-100 bg-dark align-middle'>
                 {{rs.type}}
